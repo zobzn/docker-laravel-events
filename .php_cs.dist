@@ -1,0 +1,42 @@
+<?php
+
+return call_user_func(function () {
+
+    $finder = PhpCsFixer\Finder::create()
+        ->files()
+        ->ignoreDotFiles(true)
+        ->ignoreVCS(true)
+        ->name('*.php')
+        ->exclude('storage')
+        ->exclude('vendor')
+        ->in(__DIR__);
+
+    $config = PhpCsFixer\Config::create();
+    $config->setUsingCache(false);
+    $config->setLineEnding("\n");
+    $config->setFinder($finder);
+    $config->setRules([
+        '@PSR1'                                     => true,
+        '@PSR2'                                     => true,
+        '@Symfony'                                  => true,
+        'simplified_null_return'                    => false,
+        'no_empty_comment'                          => false,
+        'no_multiline_whitespace_before_semicolons' => true,
+        'no_extra_consecutive_blank_lines'          => false,
+        'ordered_imports'                           => true,
+        'no_alias_functions'                        => false,
+        'array_syntax'                              => ['syntax' => 'short'],
+        'phpdoc_align'                              => false,
+        'phpdoc_summary'                            => false,
+        'phpdoc_to_comment'                         => false,
+        'phpdoc_order'                              => true,
+        'phpdoc_trim'                               => true,
+        'unary_operator_spaces'                     => false,
+        'binary_operator_spaces'                    => ['align_double_arrow' => true, 'align_equals' => true],
+        'concat_space'                              => ['spacing' => 'one'],
+        'visibility_required'                       => ['method', 'property'],
+        'yoda_style'                                => false,
+    ]);
+
+    return $config;
+});
