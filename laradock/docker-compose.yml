@@ -87,6 +87,18 @@ services:
       ports:
         - "${MYSQL_PORT}:3306"
       networks:
+        - frontend
+        - backend
+
+### MailDev Container #######################################
+
+    maildev:
+      build: ./maildev
+      ports:
+        - "${MAILDEV_HTTP_PORT}:80"
+        - "${MAILDEV_SMTP_PORT}:25"
+      networks:
+        - frontend
         - backend
 
 ### Networks Setup ############################################
