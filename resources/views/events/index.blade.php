@@ -71,5 +71,12 @@
             </div>
         </div>
 
+        @if (count($events))
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="fullcalendar" data-events='@json($events)'></div>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection

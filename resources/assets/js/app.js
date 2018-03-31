@@ -1,21 +1,30 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+require('babel-polyfill');
+require('bootstrap-sass');
+require('fullcalendar');
 
-require('./bootstrap');
+(() => {
+    const axios = require('axios');
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-window.Vue = require('vue');
+    let token = document.head.querySelector('meta[name="csrf-token"]');
+    if (token) {
+        axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    } else {
+        console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    }
+})();
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+[...document.querySelectorAll('.fullcalendar[data-events]')].forEach(element => {
+    const calendar = $(element);
+    const events = calendar.data('events').map(item => {
+        return {
+            id: item.id,
+            title: item.title,
+            start: item.date,
+        };
+    });
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
-const app = new Vue({
-    el: '#app',
+    calendar.fullCalendar({
+        events: events,
+    });
 });
