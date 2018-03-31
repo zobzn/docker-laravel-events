@@ -1,6 +1,6 @@
 require('babel-polyfill');
-require('bootstrap-sass');
 require('fullcalendar');
+require('bootstrap');
 
 (() => {
     const axios = require('axios');
@@ -25,6 +25,12 @@ require('fullcalendar');
     });
 
     calendar.fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay,listWeek',
+        },
+        eventLimit: true, // allow "more" link when too many events
         events: events,
     });
 });

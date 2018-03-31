@@ -29,8 +29,9 @@ mix
     .js('resources/assets/js/app.js', 'public/js')
     .extract([
         'babel-polyfill',
-        'bootstrap-sass',
         'fullcalendar',
+        'bootstrap',
+        'popper.js',
         'jquery',
         'axios',
     ]);

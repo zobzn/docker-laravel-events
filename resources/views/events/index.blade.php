@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="card my-4">
+            <div class="card-header">
                 <div class="btn-group pull-right">
                     <a class="btn btn-success" href="{{ route('events.create') }}"> Create New Event</a>
                 </div>
@@ -11,7 +11,7 @@
                     Events
                 </h1>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 @if ($message = Session::get('success'))
                     <div class="alert alert-success">
                         <p>{{ $message }}</p>
@@ -27,7 +27,7 @@
                         <colgroup>
                             <col />
                             <col />
-                            <col width="160" />
+                            <col width="180" />
                             <col width="190" />
                         </colgroup>
                         <thead>
@@ -72,8 +72,8 @@
         </div>
 
         @if (count($events))
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div class="card my-4">
+                <div class="card-body">
                     <div class="fullcalendar" data-events='@json($events)'></div>
                 </div>
             </div>

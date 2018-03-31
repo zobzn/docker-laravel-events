@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">
+        <div class="card">
+            <div class="card-header">
                 <div class="btn-group pull-right">
                     <a class="btn btn-success" href="{{ route('events.index') }}">Back</a>
                 </div>
@@ -11,23 +11,15 @@
                     Show Event
                 </h1>
             </div>
-            <div class="panel-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <strong>Title:</strong>
-                                {{ $event->title }}
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <strong>Date:</strong>
-                                {{ $event->date }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-body">
+                <p>
+                    <strong>Title:</strong>
+                    {{ $event->title }}
+                </p>
+                <p>
+                    <strong>Date:</strong>
+                    {{ $event->date }}
+                </p>
             </div>
         </div>
     </div>
