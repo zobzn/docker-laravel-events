@@ -47,9 +47,9 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
+        $request->validate([
             'title' => 'required',
-            'date'  => 'required|date',
+            'date'  => 'required|date_format:"Y-m-d H:i"',
         ]);
 
         $event = Event::make($request->all());
@@ -99,9 +99,9 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        request()->validate([
+        $request->validate([
             'title' => 'required',
-            'date'  => 'required|date',
+            'date'  => 'required|date_format:"Y-m-d H:i"',
         ]);
 
         Event::find($id)->update($request->all());
@@ -122,7 +122,8 @@ class EventController extends Controller
     {
         Event::find($id)->delete();
 
-        return redirect()->route('events.index')
+        return redirect()
+            ->route('events.index')
             ->with('success', 'Event deleted successfully');
     }
 }

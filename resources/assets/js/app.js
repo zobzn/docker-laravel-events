@@ -1,7 +1,5 @@
 import $ from 'jquery';
 
-global.moment = require('moment');
-
 require('babel-polyfill');
 require('moment-timezone');
 require('fullcalendar');

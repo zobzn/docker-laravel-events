@@ -18,8 +18,9 @@ mix.webpackConfig(webpack => {
             new webpack.ProvidePlugin({
                 '$': 'jquery',
                 'jQuery': 'jquery',
-                'window.jQuery': 'jquery',
                 'moment': 'moment',
+                'window.jQuery': 'jquery',
+                'window.moment': 'moment',
             })
         ]
     };
