@@ -29,10 +29,13 @@ mix
     .sass('resources/assets/sass/app.scss', 'public/css')
     .js('resources/assets/js/app.js', 'public/js')
     .extract([
+        'tempusdominus-bootstrap-4',
         'babel-polyfill',
         'fullcalendar',
         'bootstrap',
         'popper.js',
+        'moment-timezone',
+        'moment',
         'jquery',
         'axios',
     ]);
