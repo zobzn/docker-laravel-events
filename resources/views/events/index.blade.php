@@ -48,7 +48,7 @@
                                         {{ $event->title }}
                                     </td>
                                     <td>
-                                        {{ $event->date }}
+                                        {{ $event->date->format('Y-m-d H:i') }}
                                     </td>
                                     <td>
                                         <a class="btn btn-sm btn-primary" href="{{ route('events.show', ['id' => $event->id]) }}">Show</a>

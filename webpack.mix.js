@@ -19,6 +19,7 @@ mix.webpackConfig(webpack => {
                 '$': 'jquery',
                 'jQuery': 'jquery',
                 'window.jQuery': 'jquery',
+                'moment': 'moment',
             })
         ]
     };

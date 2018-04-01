@@ -34,13 +34,20 @@
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-2 control-label" for="date">Date:</label>
-                                <div class="col-sm-6">
-                                    <input class="form-control" type="date" name="date" required />
+                                <div class="col-sm-10">
+                                    <div class="input-group date" id="event-date" data-target-input="nearest">
+                                        <input class="form-control datetimepicker-input" type="text"
+                                               data-target="#event-date" data-toggle="datetimepicker" data-dt-format="YYYY-MM-DD HH:mm"
+                                               name="date" required />
+                                        <div class="input-group-append" data-target="#event-date" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-10 ml-auto">
-                                    <button type="submit" class="btn btn-default">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
                         </form>

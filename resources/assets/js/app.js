@@ -1,14 +1,25 @@
+import $ from 'jquery';
+
+global.moment = require('moment');
+
 require('babel-polyfill');
+require('moment-timezone');
 require('fullcalendar');
 require('bootstrap');
+require('tempusdominus-bootstrap-4');
 
 (() => {
-    const axios = require('axios');
-    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
     let token = document.head.querySelector('meta[name="csrf-token"]');
     if (token) {
+        const axios = require('axios');
+        axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': token.content,
+            },
+        });
     } else {
         console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
     }
@@ -32,5 +43,15 @@ require('bootstrap');
         },
         eventLimit: true, // allow "more" link when too many events
         events: events,
+    });
+});
+
+[...document.querySelectorAll('.datetimepicker-input')].forEach(element => {
+    const input = $(element);
+    const format = input.attr('data-dt-format') || 'YYYY-MM-DD HH:mm:ss';
+    const wrapper = $(input.attr('data-target'));
+
+    wrapper.datetimepicker({
+        format: format,
     });
 });
