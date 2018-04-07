@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Model\Event;
+use Fig\Http\Message\StatusCodeInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class EventController extends Controller
 {
@@ -67,10 +69,11 @@ class EventController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show($id)
+    public function show(Event $event)
     {
-        $event = Event::find($id);
+        $this->authorize('event.view', $event);
 
         return view('events.show', compact('event'));
     }
@@ -81,10 +84,11 @@ class EventController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function edit($id)
+    public function edit(Event $event)
     {
-        $event = Event::find($id);
+        $this->authorize('event.edit', $event);
 
         return view('events.edit', compact('event'));
     }
@@ -97,14 +101,16 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Event $event)
     {
+        $this->authorize('event.edit', $event);
+
         $request->validate([
             'title' => 'required',
             'date'  => 'required|date_format:"Y-m-d H:i"',
         ]);
 
-        Event::find($id)->update($request->all());
+        $event->update($request->all());
 
         return redirect()
             ->route('events.index')
@@ -117,10 +123,13 @@ class EventController extends Controller
      * @param  int $id
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(Event $event)
     {
-        Event::find($id)->delete();
+        $this->authorize('event.edit', $event);
+
+        $event->delete();
 
         return redirect()
             ->route('events.index')

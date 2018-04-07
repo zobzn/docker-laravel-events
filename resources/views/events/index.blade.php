@@ -13,9 +13,9 @@
             </div>
             <div class="card-body">
                 @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
-                    </div>
+                    <p class="alert alert-success">
+                        {{ $message }}
+                    </p>
                 @endif
                 @if (!count($events))
                     <p>
