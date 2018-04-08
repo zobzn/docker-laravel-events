@@ -1,15 +1,16 @@
-import $ from 'jquery';
+import 'babel-polyfill';
+import 'moment-timezone';
+import 'fullcalendar';
+import 'bootstrap';
+import 'tempusdominus-bootstrap-4';
 
-require('babel-polyfill');
-require('moment-timezone');
-require('fullcalendar');
-require('bootstrap');
-require('tempusdominus-bootstrap-4');
+import axios from 'axios';
+import $ from 'jquery';
+import Vue from 'vue';
 
 (() => {
     let token = document.head.querySelector('meta[name="csrf-token"]');
     if (token) {
-        const axios = require('axios');
         axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 
@@ -51,5 +52,14 @@ require('tempusdominus-bootstrap-4');
 
     wrapper.datetimepicker({
         format: format,
+    });
+});
+
+[...document.querySelectorAll('.vue-app')].forEach(root => {
+    new Vue({
+        el: root,
+        components: {
+            'events-list': require('./components/EventsList.vue'),
+        }
     });
 });

@@ -11,6 +11,14 @@
 |
 */
 
+use Fig\Http\Message\StatusCodeInterface;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Auth::routes();
-Route::get('/', 'HomeController@index')->name('home');
-Route::resource('events', 'EventController');
+// Route::get('/', 'HomeController@index')->name('home');
+Route::redirect('/', '/events', StatusCodeInterface::STATUS_FOUND)->name('home');
+
+Route::group(['middleware' => ['auth:web']], function () {
+    Route::resource('events', 'EventController');
+});

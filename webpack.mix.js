@@ -15,6 +15,8 @@ mix.options({
 mix.webpackConfig(webpack => {
     return {
         plugins: [
+            // @see https://github.com/moment/moment/issues/2416
+            new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
             new webpack.ProvidePlugin({
                 '$': 'jquery',
                 'jQuery': 'jquery',
@@ -39,6 +41,7 @@ mix
         'moment',
         'jquery',
         'axios',
+        'vue',
     ]);
 
 mix.inProduction() && mix.version();

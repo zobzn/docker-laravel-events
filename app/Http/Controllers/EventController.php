@@ -3,31 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Model\Event;
-use Fig\Http\Message\StatusCodeInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web');
     }
 
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $events = Event::query()
             ->where('user_id', Auth::id())
             ->orderBy('date')
             ->get();    // or ->paginate() if need split into pages
 
-        return view('events.index', compact('events'));
+        if ($request->isXmlHttpRequest()) {
+            return response()->json($events->jsonSerialize());
+        } else {
+            return view('events.index', compact('events'));
+        }
     }
 
     /**
@@ -45,16 +50,22 @@ class EventController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      *
+     * @throws \Illuminate\Validation\ValidationException
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->only('title', 'date');
+
+        $validator = Validator::make($data, [
             'title' => 'required',
             'date'  => 'required|date_format:"Y-m-d H:i"',
         ]);
 
-        $event = Event::make($request->all());
+        $validator->validate();
+
+        $event = Event::make($data);
         $event->setAttribute('user_id', Auth::id());
         $event->save();
 
@@ -66,10 +77,11 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param Event $event
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      *
      * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Event $event)
     {
@@ -83,8 +95,9 @@ class EventController extends Controller
      *
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return \Illuminate\Http\Response
      */
     public function edit(Event $event)
     {
@@ -97,7 +110,9 @@ class EventController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int                      $id
+     * @param Event                     $event
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      *
      * @return \Illuminate\Http\Response
      */
@@ -122,17 +137,22 @@ class EventController extends Controller
      *
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy(Request $request, Event $event)
     {
         $this->authorize('event.edit', $event);
 
         $event->delete();
 
-        return redirect()
-            ->route('events.index')
-            ->with('success', 'Event deleted successfully');
+        if ($request->isXmlHttpRequest()) {
+            return response()->json(true);
+        } else {
+            return redirect()
+                ->route('events.index')
+                ->with('success', 'Event deleted successfully');
+        }
     }
 }
